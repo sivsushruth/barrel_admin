@@ -2,6 +2,8 @@
 
 -export([handle_req/1]).
 
+-include_lib("couch/include/couch_db.hrl").
+
 handle_req(#httpd{method='GET'}=Req) ->
     Root = filename:join(code:priv_dir(barrel_futon), "www"),
     case filelib:is_dir(Root) of
@@ -21,5 +23,5 @@ handle_req(#httpd{method='GET'}=Req) ->
         false ->
             couch_httpd:send_error(Req, not_found)
     end;
-handle_req(Req, _) ->
+handle_req(Req) ->
     send_method_not_allowed(Req, "GET,HEAD").
