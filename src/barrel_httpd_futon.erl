@@ -2,7 +2,7 @@
 
 -export([handle_req/1]).
 
-handle_req(#httpd{method='GET'}=Req) ->
+handle_req(Req) ->
     case couch_httpd:method(Req) of
         'GET' -> do_handle_req(Req);
         _ -> couch_httpd:send_method_not_allowed(Req, "GET,HEAD")
@@ -25,6 +25,4 @@ do_handle_req(Req) ->
             end;
         false ->
             couch_httpd:send_error(Req, not_found)
-    end;
-handle_req(Req) ->
-    couch_httpd:send_method_not_allowed(Req, "GET,HEAD").
+    end.
