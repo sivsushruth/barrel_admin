@@ -24,4 +24,4 @@ handle_req(#httpd{method='GET'}=Req) ->
             couch_httpd:send_error(Req, not_found)
     end;
 handle_req(Req) ->
-    send_method_not_allowed(Req, "GET,HEAD").
+    couch_httpd:send_method_not_allowed(Req, "GET,HEAD").
