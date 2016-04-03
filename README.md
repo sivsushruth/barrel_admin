@@ -1,9 +1,13 @@
-barrel_futon
-=====
+# barrel_futon
 
-An OTP application
 
-Build
------
+Futon interface for barrel.
 
-    $ rebar3 compile
+## Installation
+
+add this application to the barrel release. add the following to the ini file
+under the `[httpd_global_handlers]` section:
+
+```
+_utils = {barrel_httpd_futon, handle_req}
+```
