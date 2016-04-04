@@ -3,7 +3,7 @@
 -export([handle_req/1]).
 
 handle_req(Req) ->
-    case couch_httpd:method(Req) of
+    case couch_httpd_request:method(Req) of
         'GET' -> do_handle_req(Req);
         _ -> couch_httpd:send_method_not_allowed(Req, "GET,HEAD")
     end.
@@ -12,7 +12,7 @@ do_handle_req(Req) ->
     Root = filename:join(code:priv_dir(barrel_futon), "www"),
     case filelib:is_dir(Root) of
         true ->
-            "/" ++ UrlPath = couch_httpd:path(Req),
+            "/" ++ UrlPath = couch_httpd_request:path(Req),
             case couch_httpd:partition(UrlPath) of
                 {_ActionKey, "/", RelativePath} ->
                     % GET /_utils/path or GET /_utils/
@@ -20,7 +20,7 @@ do_handle_req(Req) ->
                     couch_httpd:serve_file(Req, RelativePath, Root, CachingHeaders);
                 {_ActionKey, "", _RelativePath} ->
                     % GET /_utils
-                    RedirectPath = couch_httpd:path(Req) ++ "/", couch_httpd:send_redirect(Req, RedirectPath),
+                    RedirectPath = couch_httpd_request:path(Req) ++ "/", couch_httpd:send_redirect(Req, RedirectPath),
                     couch_httpd:send_redirect(Req, RedirectPath)
             end;
         false ->
