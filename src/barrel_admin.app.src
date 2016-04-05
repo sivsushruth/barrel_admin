@@ -1,6 +1,6 @@
-{application, barrel_futon,
+{application, barrel_admin,
  [{description, "An OTP application"},
-  {vsn, "0.2.1"},
+  {vsn, "0.3.0"},
   {registered, []},
   {applications,
    [kernel,

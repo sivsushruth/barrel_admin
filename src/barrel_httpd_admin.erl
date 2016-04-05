@@ -1,4 +1,4 @@
--module(barrel_httpd_futon).
+-module(barrel_httpd_admin).
 
 -export([handle_req/1]).
 
@@ -9,7 +9,7 @@ handle_req(Req) ->
     end.
 
 do_handle_req(Req) ->
-    Root = filename:join(code:priv_dir(barrel_futon), "www"),
+    Root = filename:join(code:priv_dir(barrel_admin), "www"),
     case filelib:is_dir(Root) of
         true ->
             "/" ++ UrlPath = couch_httpd_request:path(Req),
