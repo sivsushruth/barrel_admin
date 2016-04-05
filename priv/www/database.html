@@ -32,6 +32,10 @@ specific language governing permissions and limitations under the License.
     <script src="script/futon.browse.js"></script>
     <script src="script/futon.format.js"></script>
     <script src="script/codemirror/codemirror.js"></script>
+    <script src="script/codemirror/jshint.js"></script>
+    <script src="script/codemirror/addon/fullscreen.js"></script>
+    <script src="script/codemirror/addon/lint.js"></script>
+    <script src="script/codemirror/addon/javascript-lint.js"></script>
     <script src="script/codemirror/mode/javascript.js"></script>
     <script src="script/codemirror/mode/coffeescript.js"></script>
     <script src="script/codemirror/mode/erlang.js"></script>
@@ -157,6 +161,16 @@ specific language governing permissions and limitations under the License.
                 styleActiveLine: true,
                 lineNumbers: true,
                 lineWrapping: true,
+                extraKeys: {
+                  "Ctrl-Enter": function(cm) {
+                    cm.setOption("fullScreen", !cm.getOption("fullScreen"));
+                  },
+                  "Esc": function(cm) {
+                    if (cm.getOption("fullScreen")) cm.setOption("fullScreen", false);
+                  }
+                }, 
+                gutters: ["CodeMirror-lint-markers"],
+                lint: true
               })
               editor.on("change", function(){
                 $(elem).val(editor.getDoc().getValue())
@@ -164,14 +178,19 @@ specific language governing permissions and limitations under the License.
             });
 
             $("#language").change(function(){
-              var selected_language = $( "#language option:selected" ).val()
+              var selected_language = $( "#language option:selected" ).val();
               changeLanguage(selected_language);
             })
 
             function changeLanguage(language) {
               for(var i=0; i < $('.CodeMirror').length; i++) {
                 var editor = $('.CodeMirror')[i].CodeMirror;
+                editor.refresh();
                 editor.setOption("mode", language);
+                editor.setOption("lint", false);
+                if(language == "javascript") {
+                  editor.setOption("lint", true);
+                }
               }
             }
           } else {
@@ -223,12 +242,12 @@ specific language governing permissions and limitations under the License.
         </div>
         <table summary="View functions" cellspacing="0"><tr>
           <td class="code map">
-            <label for="viewcode_map">Map Function:</label>
+            <label for="viewcode_map">Map Function: (Ctrl-Enter for fullscreen)</label>
             <textarea id="viewcode_map" class="map" rows="5" cols="20" spellcheck="false" wrap="off"></textarea>
           </td>
           <td class="splitter"></td>
           <td class="code reduce">
-            <label for="viewcode_reduce">Reduce Function (optional):</label>
+            <label for="viewcode_reduce">Reduce Function (optional): (Ctrl-Enter for fullscreen)</label>
             <textarea id="viewcode_reduce" class="reduce" rows="5" cols="20" spellcheck="false" wrap="off"></textarea>
           </td>
         </tr></table>
