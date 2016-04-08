@@ -624,3 +624,29 @@ form#replicator p.actions { padding: 1px; clear: left; margin: 0;
 #loginSignup {
   font-size:200%;
 }
+
+
+/* Logs Style */
+#log-controls {
+  font-size: 150%;
+}
+
+.log-line {
+  background: white;
+  padding: 8px;
+  margin: 0px;
+}
+
+.log-line:nth-child(odd) { 
+  background: #E8E8E8;
+}
+
+#log-text {
+  height: 500px;
+  overflow-y: scroll;
+  padding: 10px;  
+  word-wrap:break-word;
+  margin-top: 20px;
+  font-size: 14px;
+  border-top: 1px solid rgba(0, 0, 0, 0.26);
+}
