@@ -36,6 +36,11 @@ specific language governing permissions and limitations under the License.
       if(!ws || ws.readyState == 3) {
         ws = new WebSocket("ws://" + location.host + "/");
         ws.onopen = function () {
+          var msg = {
+            type: "subscribe",
+            resource: "logs",
+          };
+          ws.send(JSON.stringify(msg));
           $('#conn-state').html('Connected');
         }
         ws.onclose = function () {
